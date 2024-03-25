@@ -1,12 +1,16 @@
-import express from 'express';
-import {router} from "./routes/routes.js";
+import express from'express';
+import errorMiddleware from '../middleware/error.js';
+import indexRouter from'../routes/index.js' ;
+import bookRouter from '../routes/book.js';
 
+const app = express();
+app.use(express.urlencoded({extended: false}));
+app.set("view engine", "ejs");
 
+app.use('/', indexRouter);
+app.use('/books', bookRouter);
 
-const app = express()
+app.use(errorMiddleware);
 
-app.use(express.json())
-app.use('/', router)
-
-const PORT = process.env.PORT || 3000
-app.listen(PORT)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT);
